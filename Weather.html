@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta  http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Weather App</title>
+  <link rel="icon" type="image" href="Img/icon.jpg">
+	<style type="text/css">
+	@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+	   :root {
+     --bg_main: #0a1f44;
+     --text_light: #fff;
+     --text_med: #53627c;
+     --text_dark: #1e2432;
+     --red: #ff1e42;
+     --darkred: #c3112d;
+     --orange: #ff8c00;
+    }
+
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-weight: normal;
+		} 
+		body{
+			font-family: monospace;
+      background-image:url("Img/weather.png");
+      background-size: cover;
+      background-position: top center;
+		}
+    .Weather-wrap{
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0,0,0,0.6));
+		}   
+    button{
+        	cursor: pointer;
+        	background-color: red;
+        	padding: 10px 20px;
+        	border-radius: 20px;
+        	border: 1px solid black;
+    }
+   
+        input {
+          -webkit-appearance: none;
+        }
+        button,
+        input {
+           border: none;
+           background-color: none;
+           outline: none;
+           color: inherit;
+        }
+         ul {
+          list-style: none;
+        }
+        .container {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 15px;
+        }
+        header{
+			    display: flex;
+			    justify-content: center;
+			    align-items: center;
+			    padding: 50px 15px 15px;
+		    }
+		    header input{
+			   width: 100%;
+			   max-height: 280px;
+			   padding: 10px 15px;
+			   border: none;
+			   outline: none;
+			   background-color: rgba(255,255,255,0.3);
+			    border-radius: 16px 0 16px 0;
+			   border-bottom: 3px solid #DF8E00;
+			   color: #313131;
+			   font-size: 20px;
+			   font-weight: 300;
+			   transition: 0.2s ease-out;
+		    }
+        header input:focus {
+        	background-color: rgba(255, 255, 255, 0.6);
+        }
+        .top-banner {
+           color: lightskyblue;
+        }
+        .top-banner form {
+           position: relative;
+           display: flex;
+           align-items: center;
+        }
+
+        .top-banner form input::placeholder {
+           color: currentColor; 
+        }
+
+        .top-banner form button {
+           font-size: 1rem;
+           font-weight: bold;
+           letter-spacing: 0.1em;
+           padding: 15px 20px;
+           margin-left: 15px;
+           border-radius: 5px;
+           background-color: red;
+           transition: background 0.3s ease-in-out;
+        }
+
+        .top-banner form button:hover {
+            background-color: darkred;
+        }
+        .top-banner form .msg {
+            position: absolute;
+           bottom: -40px;
+            left: 0;
+            max-width: 450px;
+            min-height: 40px;
+        }
+        .ajax-section {
+            margin: 70px 0 20px;
+        }
+        .ajax-section .cities {
+           display: grid;
+           grid-gap: 32px 20px;
+           grid-template-columns: repeat(4, 1fr);
+        }
+
+        .ajax-section .city {
+           position: relative;
+           padding: 40px 10%;
+           border-radius: 20px;
+           background-color: white;
+           color: black;
+           background-image: url(Img/images.jpg);
+        }
+
+        .ajax-section .city::after {
+           content: '';
+           width: 90%;
+           height: 50px;
+           position: absolute;
+           bottom: -12px;
+           left: 5%;
+           z-index: -1;
+           opacity: 0.3;
+           border-radius: 20px;
+           background-color: white;
+        }
+        .ajax-section figcaption {
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .ajax-section .city-temp {
+            font-size: 5rem;
+           font-weight: bold;
+           margin-top: 10px;
+           color: var(--text_dark);
+        }
+        .ajax-section .city-pressure {
+            font-size: 3rem;
+           font-weight: bold;
+           margin-top: 10px;
+           color: var(--text_dark);
+        }
+        .ajax-section .city-humidity {
+            font-size: 3rem;
+           font-weight: bold;
+           margin-top: 10px;
+           color: var(--text_dark);
+        }
+         .ajax-section .city-wind{
+            font-size: 3rem;
+           font-weight: bold;
+           margin-top: 10px;
+           color: var(--text_dark);
+        }
+        .ajax-section .city-timeInGMT{
+            font-size: 1rem;
+           font-weight: bold;
+           margin-top: 10px;
+           color: var(--text_dark);
+        }
+        .ajax-section .city sup {
+           font-size: 0.5em;
+        }
+
+        .ajax-section .city-name sup {
+            padding: 0.2em 0.6em;
+           border-radius: 30px;
+            color: var(--text_light);
+            background-color: orange;
+        }
+
+        .ajax-section .city-icon {
+           margin-top: 10px;
+           width: 100px;
+           height: 100px;
+        }
+     
+         @media screen and (max-width: 1000px) {
+         body {
+             padding: 30px;
+          }
+  
+       .ajax-section .cities {
+           grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media screen and (max-width: 700px) {
+     .heading,
+     .ajax-section .city-temp {
+          font-size: 3rem;
+      }
+  
+      .ajax-section {
+           margin-top: 20px;
+      }
+  
+      .top-banner form {
+          flex-direction: column;
+          align-items: flex-start;
+      }
+  
+      .top-banner form input,
+      .top-banner form button {
+           width: 100%;
+      }
+
+      .top-banner form button {
+            margin: 20px 0 0 0;
+      }
+  
+      .top-banner form .msg {
+            position: static;
+            max-width: none;
+             min-height: 0;
+            margin-top: 10px;
+      }
+
+      .ajax-section .cities {
+           grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+     body {
+       padding: 15px;
+     }
+  
+    .ajax-section .cities {
+       grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  .heading{
+  	font-size: 32px;
+  	font-style: italic;
+  	font-family: 'Anton', sans-serif;
+  	font-weight: inherit;
+  	color: darkblue;
+  	justify-content: center;
+  	text-align: center;
+  }
+  p{
+    text-align: center;
+    margin:10px 0;
+    font-size:20px;
+  }
+	</style>
+</head>
+<body>
+	  <div class="weather-wrap">
+	  	<div class="weatherWidget" ></div>
+
+    <header>
+      <section class="top-banner">
+        <div class="container">
+          <h1 class="heading">Simple Weather App</h1>
+          <br>
+          <form>
+            <input type="text" placeholder="Search for a city" autofocus>
+            <button type="submit">SUBMIT</button>
+            <span class="msg"></span>
+          </form>
+        </div>
+     </section>
+    </header>
+     <section class="ajax-section">
+        <div class="container">
+           <p id="wndspd"></p>
+           <ul class="cities"></ul>
+        </div>
+     </section>
+    </div>
+      <div id="cf6_image" class="shadow"></div>
+    <script type="text/javascript">
+const form = document.querySelector(".top-banner form");
+const input = document.querySelector(".top-banner input");
+const msg = document.querySelector(".top-banner .msg");
+const list = document.querySelector(".ajax-section .cities");
+
+
+/*SUBSCRIBE HERE FOR API KEY: https://home.openweathermap.org/users/sign_up*/
+const apiKey = "4d8fb5b93d4af21d66a2948710284366";
+
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  let inputVal = input.value;
+
+  //check if there's already a city
+  const listItems = list.querySelectorAll(".ajax-section .city");
+  const listItemsArray = Array.from(listItems);
+
+  if (listItemsArray.length > 0) {
+    const filteredArray = listItemsArray.filter(el => {
+      let content = "";
+      //athens,gr
+      if (inputVal.includes(",")) {
+        //athens,grrrrrr->invalid country code, so we keep only the first part of inputVal
+        if (inputVal.split(",")[1].length > 2) {
+          inputVal = inputVal.split(",")[0];
+          content = el
+            .querySelector(".city-name span")
+            .textContent.toLowerCase();
+        } else {
+          content = el.querySelector(".city-name").dataset.name.toLowerCase();
+        }
+      } else {
+        //athens
+        content = el.querySelector(".city-name span").textContent.toLowerCase();
+      }
+      return content == inputVal.toLowerCase();
+    });
+
+    if (filteredArray.length > 0) {
+      msg.textContent = `You already know the weather for ${
+        filteredArray[0].querySelector(".city-name span").textContent
+      } ...otherwise be more specific by providing the country code as well 😉`;
+      form.reset();
+      input.focus();
+      return;
+    }
+  }
+
+  //ajax here
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
+
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      var wndspd = data['wind']['speed'] * 3.6 
+      const { main, name, sys, weather } = data;
+      const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${
+        weather[0]["icon"]
+      }.svg`;
+      const li = document.createElement("li");
+      li.classList.add("city");
+      const markup = `
+        <h2 class="city-name" data-name="${name},${sys.country}">
+          <span>${name}</span>
+          <sup>${sys.country}</sup>
+        </h2>
+        <div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
+        <div class="city-pressure">${Math.round(main.pressure)}<sup></sup></div>
+        <div class="city-humidity">${Math.round(main.humidity)}<sup>%</sup></div>
+        <div class="city-wind">${Math.round(wndspd)}<sup>Km/h</sup></div>
+        <figure>
+          <img class="city-icon" src="${icon}" alt="${
+        weather[0]["description"]
+      }">
+          <figcaption>${weather[0]["description"]}</figcaption>
+        </figure>
+      `;
+      li.innerHTML = markup;
+      list.appendChild(li);
+    })
+    .catch(() => {
+      msg.textContent = "Please search for a valid city 😩";
+    });
+
+  msg.textContent = "";
+  form.reset();
+  input.focus();
+});
+   
+    </script>
+
+</body>
+</html>
